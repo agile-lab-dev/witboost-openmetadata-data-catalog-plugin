@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Debug FastAPI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastapi",
+            "args": [
+                "dev",
+                "src/main.py"
+            ],
+            "jinja": true,
+            "env": {
+                "LOGURU_DIAGNOSE": "NO"
+            }
+        }
+    ]
+}
