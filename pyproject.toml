@@ -23,9 +23,9 @@ pip-audit = "^2.5.3"
 pytest-cov = "^5.0.0"
 pyyaml = "^6.0"
 types-pyyaml = "^6.0"
-types-requests = "^2.32.0"
-urllib3 = "^2.2.2"
 loguru = "^0.7.3"
+openmetadata-ingestion = "^1.7.0.0"
+pytest-mock = "^3.14.0"
 
 [tool.ruff]
 select = ["E", "F", "I"]
@@ -64,7 +64,12 @@ authorized_licenses = [
     'python software foundation',
     'the unlicense (unlicense)',
     '3-clause bsd',
-    'BSD-2-Clause'
+    'BSD-2-Clause',
+    'GNU Library or Lesser General Public License (LGPL)',
+    'Apache 2.0',
+    'MIT AND Python-2.0',
+    'GNU General Public License (GPL)',
+    'Collate Community License Agreement'   
 ]
 unauthorized_licenses = [
     "gnu general public license v2 (gplv2)"

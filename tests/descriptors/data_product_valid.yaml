@@ -97,7 +97,7 @@ components:
           dataLength: 16777216
           tags:
             - tagFQN: PII
-              source: Tag
+              source: Classification
               labelType: Manual
               state: Confirmed
         - name: new_persons_vaccinated

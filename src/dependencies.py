@@ -1,8 +1,17 @@
+from functools import lru_cache
 from typing import Annotated, Tuple
 
 import yaml
 from fastapi import Depends
 from loguru import logger
+from metadata.generated.schema.entity.services.connections.metadata.openMetadataConnection import (
+    AuthProvider,
+    OpenMetadataConnection,
+)
+from metadata.generated.schema.security.client.openMetadataJWTClientConfig import (
+    OpenMetadataJWTClientConfig,
+)
+from metadata.ingestion.ometa.ometa_api import OpenMetadata
 
 from src.models.api_models import (
     DescriptorKind,
@@ -11,6 +20,9 @@ from src.models.api_models import (
     ValidationError,
 )
 from src.models.data_product_descriptor import DataProduct
+from src.services.openmetadata_client_service import OpenMetadataClientService
+from src.services.provision_service import ProvisionService
+from src.settings.openmetadata_settings import OpenMetadataSettings
 from src.utility.parsing_pydantic_models import parse_yaml_with_model
 
 
@@ -158,3 +170,35 @@ UnpackedUpdateAclRequestDep = Annotated[
     Tuple[DataProduct, list[str]] | ValidationError,
     Depends(unpack_update_acl_request),
 ]
+
+
+@lru_cache
+def get_openmetadata_settings() -> OpenMetadataSettings:
+    return OpenMetadataSettings()
+
+
+def get_openmetadata_client_service(
+    openmetadata_settings: Annotated[
+        OpenMetadataSettings, Depends(get_openmetadata_settings)
+    ]
+) -> OpenMetadataClientService:
+    server_config = OpenMetadataConnection(  # type: ignore
+        hostPort=openmetadata_settings.api_base_url,
+        authProvider=AuthProvider.openmetadata,
+        securityConfig=OpenMetadataJWTClientConfig(
+            jwtToken=openmetadata_settings.jwt_token,
+        ),
+    )
+    open_metadata: OpenMetadata = OpenMetadata(server_config)
+    return OpenMetadataClientService(open_metadata, openmetadata_settings)
+
+
+def get_provision_service(
+    openmetadata_client_service: Annotated[
+        OpenMetadataClientService, Depends(get_openmetadata_client_service)
+    ],
+) -> ProvisionService:
+    return ProvisionService(openmetadata_client_service)
+
+
+ProvisionServiceDep = Annotated[ProvisionService, Depends(get_provision_service)]

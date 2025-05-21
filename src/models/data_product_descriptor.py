@@ -69,6 +69,8 @@ class OpenMetadataColumn(BaseModel):
     dataLength: Optional[int] = None
     precision: Optional[int] = None
     scale: Optional[int] = None
+    description: Optional[str] = None
+    tags: Optional[List[OpenMetadataTagLabel]] = None
 
     @field_validator("dataType")
     @classmethod

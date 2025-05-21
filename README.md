@@ -12,6 +12,7 @@ This repository is part of our [Starter Kit](https://github.com/agile-lab-dev/wi
 
 - [Overview](#overview)
 - [Building](#building)
+- [Configuring](#configuring)
 - [Running](#running)
 - [OpenTelemetry Setup](docs/opentelemetry.md)
 - [Deploying](#deploying)
@@ -112,6 +113,18 @@ More details can be found [here](docs/docker.md).
 _Note:_ the version for the project is automatically computed using information gathered from Git, using branch name and tags. Unless you are on a release branch `1.2.x` or a tag `v1.2.3` it will end up being `0.0.0`. You can follow this branch/tag convention or update the version computation to match your preferred strategy.
 
 **CI/CD:** the pipeline is based on GitLab CI as that's what we use internally. It's configured by the `.gitlab-ci.yaml` file in the root of the repository. You can use that as a starting point for your customizations.
+
+## Configuring
+
+Application configurations are handled with environment variables:
+
+| Environment Variable                      | Description                                                                       | Example                     | Default         |
+|-------------------------------------------|-----------------------------------------------------------------------------------|-----------------------------|-----------------|
+| OPENMETADATA_API_BASE_URL                 | Api Base URL                                                                      | `http://localhost:8585/api` |                 |
+| OPENMETADATA_JWT_TOKEN                    | JWT token to use for authentication                                               |                             |                 |
+| OPENMETADATA_default_domain_type          | The domain type to use when creating a domain                                     |                             | `Aggregate`     |
+| OPENMETADATA_default_storage_service_name | The storage service name to create. It is referenced by the `Container` instances |                             | `generic`       |
+| OPENMETADATA_default_storage_service_type | The storage service type to create. It is referenced by the `Container` instances |                             | `CustomStorage` |
 
 ## Running
 
