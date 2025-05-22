@@ -20,6 +20,7 @@ from src.models.api_models import (
     ValidationError,
 )
 from src.models.data_product_descriptor import DataProduct
+from src.services.glossary_terms_service import GlossaryTermsService
 from src.services.openmetadata_client_service import OpenMetadataClientService
 from src.services.provision_service import ProvisionService
 from src.settings.openmetadata_settings import OpenMetadataSettings
@@ -202,3 +203,16 @@ def get_provision_service(
 
 
 ProvisionServiceDep = Annotated[ProvisionService, Depends(get_provision_service)]
+
+
+def get_glossary_terms_service(
+    openmetadata_client_service: Annotated[
+        OpenMetadataClientService, Depends(get_openmetadata_client_service)
+    ],
+) -> GlossaryTermsService:
+    return GlossaryTermsService(openmetadata_client_service)
+
+
+GlossaryTermsServiceDep = Annotated[
+    GlossaryTermsService, Depends(get_glossary_terms_service)
+]

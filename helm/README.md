@@ -10,6 +10,12 @@ A Helm chart for Kubernetes
 | ---- | ------ | --- |
 | AgileLab |  | <http://agilelab.it> |
 
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | common | 2.x.x |
+
 ## Values
 
 | Key | Type | Default | Description |

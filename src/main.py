@@ -3,6 +3,7 @@ from __future__ import annotations
 import uuid
 
 from fastapi import Request
+from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 from starlette.background import BackgroundTask
 from starlette.responses import Response
@@ -23,6 +24,7 @@ from src.models.api_models import (
     ValidationResult,
     ValidationStatus,
 )
+from src.routers.customurlpicker_router import router as customurlpicker_router
 
 
 def log_info(req_body, res_code, res_body):
@@ -47,6 +49,17 @@ async def log_request_response_middleware(request: Request, call_next):
         media_type=response.media_type,
         background=task,
     )
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(customurlpicker_router)
 
 
 @app.post(
